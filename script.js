@@ -10,8 +10,9 @@ const lastOperationScreen = document.getElementById('lastOutput');
 const equalsButton = document.getElementById('equalsBtn')
 const decimalPoint = document.getElementById('decimalPoint')
 
-numberButtons.forEach((button) =>
+numberButtons.forEach((button) => {
   button.addEventListener('click', () => appendNumber(button.textContent))
+}
 )
 
 operatorButtons.forEach((button) =>
@@ -25,14 +26,15 @@ equalsButton.addEventListener('click', evaluate)
 
 function appendNumber(number) {
     if (currentOperationScreen.textContent === '0' || shouldResetScreen)
-     resetScreen()
+      resetScreen()
     currentOperationScreen.textContent += number
   }
 
 
 function clear() {
     currentOperationScreen.textContent = '0'
-    lastOperationScreen.textContent =''
+    lastOperationScreen.textContent = ' '
+    operatorOne = 0
 }
 
 function resetScreen(){
@@ -41,23 +43,27 @@ function resetScreen(){
 }
 
 function evaluate(){
-    if (currentOperation === null || shouldResetScreen) return
+    if (currentOperation === null || shouldResetScreen) {
+      return
+    }
+    
     if (currentOperation === '/' && currentOperationScreen.textContent === '0') {
       alert("You can't divide by 0!")
       return
     }
-        operatorTwo = currentOperationScreen.textContent
-      currentOperationScreen.textContent = roundResult(
-        operate(currentOperation, operatorOne, operatorTwo)
-      )
-      lastOperationScreen.textContent = `${operatorOne} ${currentOperation} ${operatorTwo} =`
-      currentOperation = null
+    operatorTwo = currentOperationScreen.textContent
+
+    currentOperationScreen.textContent = roundResult(operate(currentOperation, operatorOne, operatorTwo))
+    console.log(operatorOne)
+    lastOperationScreen.textContent = `${operatorOne} ${currentOperation} ${operatorTwo} =`
+    currentOperation = null
 }
 
 function appendDecimal(){
     if (currentOperationScreen.textContent === '')
         currentOperationScreen.textContent = '0'
-    if (currentOperationScreen.textContent.includes('.')) return
+    if (currentOperationScreen.textContent.includes('.')) 
+    return
     currentOperationScreen.textContent += '.'
 }
 
@@ -71,6 +77,7 @@ function setOperation(operator) {
     operatorOne = currentOperationScreen.textContent
     currentOperation = operator
     lastOperationScreen.textContent = `${operatorOne} ${currentOperation}`
+    currentOperationScreen.textContent = "0"
     shouldResetScreen = true
 }
 
@@ -102,8 +109,10 @@ function operate(operator, a, b) {
       case '*':
         return multiply(a, b)
       case '/':
-        if (b === 0) return null
-        else return divide(a, b)
+        if (b === 0) 
+          return null
+        else 
+          return divide(a, b)
       default:
         return null
     }
