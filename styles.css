@@ -28,6 +28,9 @@ body{
     background-color: #f0f8ff;
     overflow-wrap: break-word;
 }
+.lastOutput{
+    height: 27px
+}
 .calcOutput{
     margin-top: 8px;
 }
